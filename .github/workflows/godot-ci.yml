@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # Use Windows runner
 
     steps:
     - name: Checkout code
@@ -17,15 +17,16 @@ jobs:
     - name: Setup Godot
       uses: chickensoft-games/setup-godot@v2.0.1
       with:
-        version: '4.3'
+        godot_executable_download_url: 'https://downloads.tuxfamily.org/godotengine/4.3/Godot_v4.3-stable_win64.exe'  # Use Windows version
 
     - name: Export Project
       run: |
         mkdir -p build
-        godot --export "Linux/X11" build/MyGame.x86_64
+        godot --export "Windows Desktop" build/MyGame.exe  # Adjust for Windows
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v3
       with:
         name: Game Build
         path: build/
+
