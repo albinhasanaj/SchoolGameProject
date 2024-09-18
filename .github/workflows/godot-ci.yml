@@ -1,0 +1,31 @@
+name: Godot CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Godot
+      uses: firebelley/setup-godot@v1
+      with:
+        godot-version: '3.5.2'  # Replace with your Godot version
+
+    - name: Export Project
+      run: |
+        mkdir -p build
+        godot --export "Linux/X11" build/MyGame.x86_64  # Adjust export preset and output path
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Game Build
+        path: build/
